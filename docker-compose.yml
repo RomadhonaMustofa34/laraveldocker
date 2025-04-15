@@ -22,7 +22,7 @@ services:
     restart: unless-stopped
     tty: true
     ports:
-      - "2022:80"
+      - "2025:80"
     volumes:
       - .:/var/www/laraveldocker
       - ./storage/:/etc/nginx/conf.d/
