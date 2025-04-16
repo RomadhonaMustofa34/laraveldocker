@@ -42,6 +42,7 @@ services:
     volumes:
       - lbdata:/var/lib/mysql
     environment:
+      MYSQL_DATABASE: laraveldocker
       MYSQL_PASSWORD: laraveldocker
       MYSQL_ROOT_PASSWORD: laraveldocker
       SERVICE_TAGS: dev
