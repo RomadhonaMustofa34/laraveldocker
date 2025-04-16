@@ -4,9 +4,10 @@ services:
   app:
     build: .
     image: laraveldocker
-    container_name: laravedocker
+    container_name: laraveldocker
     restart: unless-stopped
     tty: true
+    command: php-fpm
     environment:
       SERVICE_NAME: app
     working_dir: /var/www/laraveldocker
@@ -26,6 +27,8 @@ services:
     volumes:
       - .:/var/www/laraveldocker
       - ./storage/:/etc/nginx/conf.d/
+    depends_on:
+      - app
     networks:
       - laraveldocker
 
@@ -49,20 +52,34 @@ services:
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: pmalaraveldocker
-    links: 
-      - db
     restart: always
     ports:
       - "7000:80"
+    environment:
+      PMA_HOST: db
+    depends_on:
+      - db
     networks:
       - laraveldocker
 
-# NETWORKS
+  code-server:
+    image: codercom/code-server:latest
+    container_name: codeserver
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      PASSWORD: "GPUYAHUD" # Ganti kalau perlu
+    volumes:
+      - .:/home/coder/project
+    working_dir: /home/coder/project
+    networks:
+      - laraveldocker
+
 networks:
   laraveldocker:
     driver: bridge
 
-# VOLUMES
 volumes:
   lbdata:
     driver: local
